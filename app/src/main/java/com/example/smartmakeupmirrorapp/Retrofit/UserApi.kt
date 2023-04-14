@@ -7,13 +7,15 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface UserApi {
     @GET("users")
     fun getUsers(): Call<List<UserRequest>>
 
     // Works exactly the same, as above
-    @HTTP(method = "GET", path = "users")
-    fun httpUsers(): Call<List<UserRequest>>
+    @GET("/{email}")
+    fun getUser(@Path("email") email: String): Call<UserResponse?>?
+
     @POST("login")
     fun login(
         @Body userRequest: UserRequest
@@ -22,6 +24,25 @@ interface UserApi {
     fun register(
         @Body userRequest: UserRequest
     ): Call<UserResponse>
+
+    @POST("recover")
+    fun forgotPwd(
+        @Body userRequest: UserRequest
+    ): Call<UserResponse>
+    @POST("changepwcode")
+    fun otp(
+        @Body userRequest: UserRequest
+    ): Call<UserResponse>
+    @POST("resetpwd")
+    fun reset(
+        @Body userRequest: UserRequest
+    ): Call<UserResponse>
+    @PUT("update/{email}")
+    fun update(
+        @Path("email") email: String,
+        @Body userRequest: UserRequest
+    ): Call<UserResponse>
+
 
     @PUT("users")
     fun putUsers(): Call<List<UserRequest>>

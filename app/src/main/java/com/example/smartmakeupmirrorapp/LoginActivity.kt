@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var password: EditText
     lateinit var btnLogin: ImageView
     lateinit var register: TextView
+    lateinit var forgetpwd: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +38,11 @@ class LoginActivity : AppCompatActivity() {
         password = findViewById(R.id.EditTextPersonPassword)
         btnLogin = findViewById(R.id.login)
         register = findViewById(R.id.Register)
+        forgetpwd = findViewById(R.id.forgett)
+
+        forgetpwd.setOnClickListener {
+            startActivity(Intent(applicationContext, ForgetpassActivity::class.java))
+        }
 
 
         register.setOnClickListener {
@@ -64,10 +70,12 @@ class LoginActivity : AppCompatActivity() {
                     // Get an instance of SharedPreferences.Editor
                     val editor = sharedPreferences.edit()
                     // Save the user's email address in shared preferences
-
+                    editor.putString("password", user!!.user?.password!!)
                     editor.putString("email", user!!.user?.email!!)
                     editor.putString("name", user!!.user?.name!!)
+                    editor.putString("birthday", user!!.user?.birthday!!)
                     editor.putString("phone", user!!.user?.phone!!)
+                    editor.putString("address",user!!.user?.address!!)
                     // Commit the changes to the SharedPreferences object
                     editor.commit()
                     // Get the user's email address from shared preferences

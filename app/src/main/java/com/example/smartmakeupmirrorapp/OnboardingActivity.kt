@@ -1,5 +1,6 @@
 package com.example.smartmakeupmirrorapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -31,9 +32,13 @@ class OnboardingActivity : AppCompatActivity(){
     }
     override fun onStart() {
         super.onStart()
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-        if(SharedPrefManager(this).isLoggedIn){
-            val intent = Intent(applicationContext, MainActivity::class.java)
+        val name = sharedPreferences?.getString("name", "")
+        val email = sharedPreferences?.getString("email", "")
+
+        if(email != ""){
+            val intent = Intent(applicationContext, SettingsActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             startActivity(intent)

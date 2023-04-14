@@ -26,5 +26,11 @@ class UserResponse {
         @SerializedName("birthday")
         @Expose
         var birthday:String? =null
+        @SerializedName("code")
+        @Expose
+        var code:String? =null
+        @SerializedName("address")
+        @Expose
+        var address:String? =null
     }
 }

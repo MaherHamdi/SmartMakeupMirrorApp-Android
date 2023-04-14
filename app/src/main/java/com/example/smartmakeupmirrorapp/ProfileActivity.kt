@@ -9,43 +9,49 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.example.smartmakeupmirrorapp.Models.UserRequest
 import com.example.smartmakeupmirrorapp.Models.UserResponse
+import com.example.smartmakeupmirrorapp.Retrofit.SharedPrefManager
 import com.example.smartmakeupmirrorapp.Retrofit.UserApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class SignupActivity : AppCompatActivity() {
-    private lateinit var email: EditText
-    private lateinit var password: EditText
-    private lateinit var phone: EditText
-    private lateinit var name: EditText
-    private lateinit var dateEdt: EditText
-    lateinit var btnSignup: ImageView
-    lateinit var login: TextView
+class ProfileActivity : AppCompatActivity() {
+    private lateinit var nameEd: EditText
+    private lateinit var emailEd: EditText
+    private lateinit var phoneEd: EditText
+    private lateinit var addressEd:EditText
+    private lateinit var back: ImageView
+    private lateinit var dateEd: EditText
+    private lateinit var nametxt: TextView
+    private lateinit var update: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
-        dateEdt  = findViewById(R.id.idEdtDate)
-         email = findViewById(R.id.EditTextPersonEmail2)
-         password = findViewById(R.id.EditTextPersonPassword2)
-        phone = findViewById(R.id.EditTextPersonPhone2)
-         name = findViewById(R.id.EditTextPersonName2)
-        btnSignup = findViewById(R.id.sign2)
-        login = findViewById(R.id.login)
-        dateEdt.setInputType(InputType.TYPE_NULL);
+        setContentView(R.layout.activity_profile)
 
 
-        login.setOnClickListener{
-            startActivity(Intent(applicationContext, LoginActivity::class.java))
+        nameEd = findViewById(R.id.nameee)
+        nametxt = findViewById(R.id.nameTxt)
+        emailEd = findViewById(R.id.emailll)
+        phoneEd = findViewById(R.id.phoneee)
+        addressEd = findViewById(R.id.address)
+        dateEd = findViewById(R.id.birthdaaay)
+        dateEd.setInputType(InputType.TYPE_NULL)
+        update = findViewById(R.id.btn_updt)
+        back = findViewById(R.id.back)
+
+        back.setOnClickListener {
+            startActivity(Intent(applicationContext, SettingsActivity::class.java))
         }
-        dateEdt.setOnClickListener {
+
+        dateEd.setOnClickListener {
 
             // on below line we are getting
             // the instance of our calendar.
@@ -64,7 +70,7 @@ class SignupActivity : AppCompatActivity() {
                     // on below line we are setting
                     // date to our edit text.
                     val dat = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
-                    dateEdt.setText(dat)
+                    dateEd.setText(dat)
                 },
                 // on below line we are passing year, month
                 // and day for the selected date in our date picker.
@@ -79,54 +85,57 @@ class SignupActivity : AppCompatActivity() {
             datePickerDialog.setOnShowListener {
                 val headerId = resources.getIdentifier("date_picker_header", "id", "android")
                 val headerView = datePickerDialog.findViewById<View>(headerId)
-               //  headerView?.setBackgroundColor(color)
+                //  headerView?.setBackgroundColor(color)
 
 
             }
 
             datePickerDialog.show()
         }
-        // on below line we are adding
-        // click listener for our edit text.
 
-        btnSignup.setOnClickListener {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val id = sharedPreferences?.getInt("id", 0)
+        val name = sharedPreferences?.getString("name", "")
+        val email = sharedPreferences?.getString("email", "")
+        val phone = sharedPreferences?.getString("phone","")
+        val date = sharedPreferences?.getString("birthday","")
+        val password = sharedPreferences?.getString("password","")
+        val address = sharedPreferences?.getString("address","")
 
-            //val birthday = dateEdt.text.toString().trim()
-            register(email.text.toString(),password.text.toString(),name.text.toString(),phone.text.toString(),dateEdt.text.toString(), "")
+        nameEd.setText(name)
+        emailEd.setText(email)
+        phoneEd.setText(phone)
+        dateEd.setText(date)
+        addressEd.setText(address)
 
+        nametxt.text= name
 
-
-
+        update.setOnClickListener {
+            update(emailEd.text.toString(),nameEd.text.toString(), phoneEd.text.toString(), dateEd.text.toString(), addressEd.text.toString())
         }
+
+
+
     }
-    fun register(email: String,password:String,name:String,phone:String,dateEdt:String, address: String)
+    fun update(email: String,name:String,phone:String,dateEd:String, address: String)
     {
         val request = UserRequest()
         request.email = email
-        request.password =password
         request.phone = phone
         request.name = name
-        request.birthday = dateEdt
+        request.birthday = dateEd
         request.address = address
-
-
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val emaill = sharedPreferences?.getString("email", "")
         val retro = RetrofitClient().getInstance().create(UserApi::class.java)
-        retro.register(request).enqueue(object : Callback<UserResponse> {
+        retro.update(emaill.toString(),request).enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
 
 
-                if (response.isSuccessful) {
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                val intent = Intent(applicationContext, SettingsActivity::class.java)
 
-                    val intent = Intent(applicationContext, LoginActivity::class.java)
-
-                    startActivity(intent)
-
-                }
-                else{
-                    Toast.makeText(applicationContext, "must not be empty!!!", Toast.LENGTH_SHORT).show()
-
-                }
+                startActivity(intent)
 
 
             }
@@ -137,4 +146,3 @@ class SignupActivity : AppCompatActivity() {
         })
     }
 }
-

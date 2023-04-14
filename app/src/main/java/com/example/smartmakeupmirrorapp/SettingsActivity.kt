@@ -7,19 +7,34 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import com.example.smartmakeupmirrorapp.Retrofit.SharedPrefManager
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var nametxt: TextView
     private lateinit var emailtxt: TextView
     private lateinit var logoutB: ImageView
+    private lateinit var edit: AppCompatButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         logoutB = findViewById(R.id.logoutt)
+        edit = findViewById(R.id.edit)
+
+        edit.setOnClickListener{
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            val intent = Intent(applicationContext, ProfileActivity::class.java)
+
+            startActivity(intent)
+        }
 
         logoutB.setOnClickListener{
-            SharedPrefManager(applicationContext).removeUser()
+            val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            // Get an instance of SharedPreferences.Editor
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             val intent = Intent(applicationContext, LoginActivity::class.java)

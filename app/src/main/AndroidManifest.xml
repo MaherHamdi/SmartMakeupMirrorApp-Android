@@ -53,6 +53,23 @@
             android:name=".SettingsActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ForgetpassActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".OtpActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ChangepassActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>

@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName
 
 class UserRequest {
 
+
+    @SerializedName("id")
+    @Expose
+    var id:Int? =null
     @SerializedName("email")
     @Expose
     var email:String? =null
@@ -20,5 +24,11 @@ class UserRequest {
     @SerializedName("birthday")
     @Expose
     var birthday:String? =null
+    @SerializedName("code")
+    @Expose
+    var code:String? =null
+    @SerializedName("address")
+    @Expose
+    var address:String? =null
 
 }
