@@ -9,35 +9,33 @@ import okhttp3.Protocol
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.POST
+import tn.farah.smartmakeupapp.data.models.NewProducts
 import tn.farah.smartmakeupapp.data.models.Product
+import tn.farah.smartmakeupapp.data.models.ProductsByCategory
 
 object ProductRepo{
-private const val  BASE_URL = "http://192.168.1.103:9090/"
+public const val  BASE_URL = "http://192.168.1.103:9090/"
 /**
  * Build the Moshi object with Kotlin adapter factory that Retrofit will be using.
  */
 val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
-    val listType = Types.newParameterizedType(List::class.java, Product::class.java)
-    val adapter: JsonAdapter<List<Product>> = moshi.adapter(listType)
-
-
-
-
     /**
      * The OkHttp client with HTTPS support.
      */
     private val okHttpClient = OkHttpClient.Builder()
         .protocols(listOf(Protocol.HTTP_1_1))
         .build()
-/**
+  /**
  * The Retrofit object with the Moshi converter.
  */
 
-private val retrofit : Retrofit by lazy {
-  //val adapter =   moshi.adapter<Products>()
+   private val retrofit : Retrofit by lazy {
     Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
@@ -55,5 +53,13 @@ interface ProductService {
         @GET("product/")
 
           fun getProducts():Call<List<Product>>
-    }
+
+          @POST("product/New")
+
+    fun getNewProducts(@Body new :NewProducts ):Call<List<Product>>
+
+@POST ("product/ProductByCategory")
+  fun  getProductByCategory(@Body category :ProductsByCategory):Call<List<Product>>
+
+}
 

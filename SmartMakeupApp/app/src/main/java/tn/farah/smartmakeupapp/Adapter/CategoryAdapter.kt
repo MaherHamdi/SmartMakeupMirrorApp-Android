@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import  tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Category
 
-class CategoryAdapter(private val categories: ArrayList<Category>): RecyclerView.Adapter<CategoryAdapter.ViewHolder>()  {
+class CategoryAdapter(private val categories: List<Category>): RecyclerView.Adapter<CategoryAdapter.ViewHolder>()  {
 
 
     var onItemClick : ((Category)->Unit)?=null

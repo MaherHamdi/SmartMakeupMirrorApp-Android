@@ -13,7 +13,8 @@ data class Product(@Json(name="_id")val _id:String,
                     @Json(name="new")val new:Boolean,
                     @Json(name="promotion")val promotion:Boolean,
                     @Json(name="subCategory")val subCategory:String,
-                    @Json(name="isFaved")val isFaved:Boolean,
+                   @Json(name="category")val category:String,
+                   @Json(name="isFaved")val isFaved:Boolean,
                     @Json(name="rating")val rating:Int)   : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -25,7 +26,7 @@ data class Product(@Json(name="_id")val _id:String,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readString()!!,
-      //  parcel.readString()!!,
+       parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
         parcel.readInt()
     ) {
@@ -41,7 +42,7 @@ data class Product(@Json(name="_id")val _id:String,
         parcel.writeByte(if (new) 1 else 0)
         parcel.writeByte(if (promotion) 1 else 0)
         parcel.writeString(subCategory)
-       // parcel.writeString(category)
+       parcel.writeString(category)
         parcel.writeByte(if (isFaved) 1 else 0)
         parcel.writeInt(rating)
     }
@@ -63,4 +64,5 @@ data class Product(@Json(name="_id")val _id:String,
 
 //@Json(name="category")val category:String)
 
-// class Products(val product: List<Product1>)
+ class NewProducts(@Json (name="new")val new: Boolean)
+class ProductsByCategory(@Json (name="category")val category: String)

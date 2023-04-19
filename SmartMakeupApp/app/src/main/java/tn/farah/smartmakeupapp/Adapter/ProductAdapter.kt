@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import retrofit2.Call
 import tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Product
 
@@ -17,7 +16,7 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
         private val productName : TextView = itemView.findViewById(R.id.product_name)
         private val productDes : TextView = itemView.findViewById(R.id.product_description)
         private val productPrice : TextView = itemView.findViewById(R.id.product_price)
-val image : ImageView=itemView.findViewById(R.id.imageView)
+val image : ImageView=itemView.findViewById(R.id.imageView_new_Product)
 
         fun bind(product: Product) {
             productName.text = product.name

@@ -9,7 +9,7 @@ import tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Category
 import tn.farah.smartmakeupapp.data.models.SubCategory
 
-class SubCategoryAdapter(private val subCategories: ArrayList<SubCategory>): RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
+class SubCategoryAdapter(private val subCategories: List<SubCategory>): RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
