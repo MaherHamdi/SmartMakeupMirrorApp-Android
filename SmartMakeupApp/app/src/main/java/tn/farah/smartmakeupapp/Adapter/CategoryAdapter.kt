@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import  tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Category
-import tn.farah.smartmakeupapp.data.models.Product
 
 class CategoryAdapter(private val categories: ArrayList<Category>): RecyclerView.Adapter<CategoryAdapter.ViewHolder>()  {
 

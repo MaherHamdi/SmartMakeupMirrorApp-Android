@@ -16,7 +16,10 @@ class MainActivity : AppCompatActivity() {
 
         // Ajout d'un listener sur le bouton pour gérer le clic
         button.setOnClickListener {
-            val intent = Intent(this, AcceuilActivity::class.java)
+           val intent = Intent(this, AcceuilActivity::class.java)
+            print("OK!!")
+         //     val intent = Intent(this, MainActivity2::class.java)
+
             startActivity(intent)
         }
     }

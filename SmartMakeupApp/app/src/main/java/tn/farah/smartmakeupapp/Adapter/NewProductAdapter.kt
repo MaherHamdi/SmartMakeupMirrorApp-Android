@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Product
 
-class NewProductAdapter (private val new_products: ArrayList<Product>): RecyclerView.Adapter<NewProductAdapter.ViewHolder>()  {
+class NewProductAdapter (private val new_products: List<Product>): RecyclerView.Adapter<NewProductAdapter.ViewHolder>()  {
 var onItemClick : ((Product)->Unit)?=null
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val productName : TextView = itemView.findViewById(R.id.product_name)
