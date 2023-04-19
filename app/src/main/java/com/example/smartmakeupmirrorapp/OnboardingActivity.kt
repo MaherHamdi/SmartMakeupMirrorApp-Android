@@ -38,7 +38,7 @@ class OnboardingActivity : AppCompatActivity(){
         val email = sharedPreferences?.getString("email", "")
 
         if(email != ""){
-            val intent = Intent(applicationContext, SettingsActivity::class.java)
+            val intent = Intent(applicationContext, AcceuilActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             startActivity(intent)

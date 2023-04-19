@@ -69,6 +69,19 @@
             android:name=".ChangepassActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".AcceuilActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ProdcutDetailActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ProdcutByCategoryActivity"
+            android:exported="true">
+        </activity>
+
 
     </application>
 
