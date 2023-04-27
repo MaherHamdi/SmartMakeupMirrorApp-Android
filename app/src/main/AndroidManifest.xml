@@ -81,6 +81,10 @@
             android:name=".ProdcutByCategoryActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".ShoppingCartActivity"
+            android:exported="true">
+        </activity>
 
 
     </application>

@@ -18,4 +18,6 @@
     <color name="notifications">#13b2c3</color>
     <color name="private_account">#e6a326</color>
     <color name="security">#d95f69</color>
+    <color name="colorAccent">#D81B60</color>
+
 </resources>

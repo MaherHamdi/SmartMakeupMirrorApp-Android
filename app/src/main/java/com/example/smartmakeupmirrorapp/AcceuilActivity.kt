@@ -2,7 +2,7 @@ package com.example.smartmakeupmirrorapp
 
 
 
-import android.content.ContentValues.TAG
+import ProductRepo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,18 +10,15 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.smartmakeupmirrorapp.Adapter.CategoryAdapter
 import com.example.smartmakeupmirrorapp.Adapter.ProductAdapter
 import com.example.smartmakeupmirrorapp.Models.Category
-import com.example.smartmakeupmirrorapp.Models.CategoryService
 import com.example.smartmakeupmirrorapp.Models.Product
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
-import java.security.AccessController.getContext
+import io.paperdb.Paper
+import retrofit2.Call
+import retrofit2.Response
 
 
 class AcceuilActivity : AppCompatActivity() {
@@ -34,14 +31,23 @@ class AcceuilActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var newProductAdapter: ProductAdapter
     private lateinit var profile: ImageView
+    private lateinit var cartView: ImageView
+    private lateinit var  cartSize : TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_acceuil)
+        Paper.init(this)
       //  recyclerViewCategories = findViewById(R.id.recyclerViewCategory)
        // recyclerViewProduct = findViewById(R.id.recyclerViewProduct)
        // linearLayoutManager = LinearLayoutManager(this,  LinearLayoutManager.HORIZONTAL, false)
         //recyclerViewCategories.layoutManager = linearLayoutManager
         profile = findViewById(R.id.imageViewuser)
+        cartView = findViewById(R.id.imageViewhom)
+        //cartSize =  findViewById(R.id.cart_size)
+        cartView.setOnClickListener {
+            startActivity(Intent(applicationContext, ShoppingCartActivity::class.java))
+        }
         profile.setOnClickListener {
             startActivity(Intent(applicationContext, SettingsActivity::class.java))
         }
@@ -54,6 +60,7 @@ class AcceuilActivity : AppCompatActivity() {
 
 
         nametxt.text= "Hi $name"
+        //cartSize.text = ShoppingCart.getShoppingCartSize().toString()
 
         recyclerViewCategories = findViewById(R.id.recyclerViewCategory)
 

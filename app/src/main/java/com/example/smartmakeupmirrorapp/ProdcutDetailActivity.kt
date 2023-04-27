@@ -1,11 +1,11 @@
 package com.example.smartmakeupmirrorapp
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.example.smartmakeupmirrorapp.Models.CartItem
 import com.example.smartmakeupmirrorapp.Models.Product
 
 class ProdcutDetailActivity : AppCompatActivity() {
@@ -14,6 +14,7 @@ class ProdcutDetailActivity : AppCompatActivity() {
     private lateinit var addCart: TextView
     private lateinit var numberOrder: TextView
     var numberOr: Int = 1
+    private lateinit var cartItem: CartItem
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -33,6 +34,7 @@ class ProdcutDetailActivity : AppCompatActivity() {
             }
             numberOrder.text = numberOr.toString()
         }
+
 
         val product = intent.getParcelableExtra<Product>("product")
         if (product != null) {
