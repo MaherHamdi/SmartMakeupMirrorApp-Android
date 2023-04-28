@@ -3,57 +3,51 @@ package com.example.smartmakeupmirrorapp
 import android.annotation.SuppressLint
 import android.content.Context
 import com.example.smartmakeupmirrorapp.Models.CartItem
+import com.example.smartmakeupmirrorapp.Models.FavoriteItem
 import io.paperdb.Paper
 
 
-class ShoppingCart {
+class Favorite {
 
 
     companion object {
 
 
-        fun addItem(cartItem: CartItem) {
-            val cart = ShoppingCart.getCart()
+        fun addItem(favoriteItem: FavoriteItem) {
+            val favorite = Favorite.getFavorite()
 
-            val targetItem = cart.singleOrNull { it.product._id == cartItem.product._id }
+            val targetItem = favorite.singleOrNull { it.product._id == favoriteItem.product._id }
 
             if (targetItem == null) {
-                cartItem.quantity++
-                cart.add(cartItem)
 
-            } else {
+                favorite.add(favoriteItem)
 
-                targetItem.quantity++
             }
 
-            ShoppingCart.saveCart(cart)
+            Favorite.saveFavorite(favorite)
 
 
         }
 
-        fun removeItem(cartItem: CartItem, context: Context) {
+        fun removeItem(favItem: FavoriteItem, context: Context) {
 
-            val cart = ShoppingCart.getCart()
+            val cart = Favorite.getFavorite()
 
 
-            val targetItem = cart.singleOrNull { it.product._id == cartItem.product._id }
+            val targetItem = cart.singleOrNull { it.product._id == favItem.product._id }
 
             if (targetItem != null) {
 
-                if (targetItem.quantity > 1) {
 
-
-                    targetItem.quantity--
-                } else {
                     cart.remove(targetItem)
-                }
+
 
 
 
             }
 
 
-            ShoppingCart.saveCart(cart)
+            Favorite.saveFavorite(cart)
 
         }
         fun deleteItem(cartItem: CartItem, context: Context) {
@@ -65,7 +59,7 @@ class ShoppingCart {
 
             if (targetItem != null) {
 
-                    cart.remove(targetItem)
+                cart.remove(targetItem)
 
 
 
@@ -79,17 +73,17 @@ class ShoppingCart {
 
             val cart = ShoppingCart.getCart()
 
-                cart.clear()
+            cart.clear()
             ShoppingCart.saveCart(cart)
 
         }
 
-        fun saveCart(cart: MutableList<CartItem>) {
-            Paper.book().write("cart", cart)
+        fun saveFavorite(favorite: MutableList<FavoriteItem>) {
+            Paper.book().write("fav", favorite)
         }
 
-        fun getCart(): MutableList<CartItem> {
-            return Paper.book().read("cart", mutableListOf())!!
+        fun getFavorite(): MutableList<FavoriteItem> {
+            return Paper.book().read("fav", mutableListOf())!!
         }
 
         fun getShoppingCartSize(): Int {

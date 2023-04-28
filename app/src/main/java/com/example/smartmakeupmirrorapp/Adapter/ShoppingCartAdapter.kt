@@ -15,7 +15,7 @@ import com.example.smartmakeupmirrorapp.ShoppingCart
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 
-class ShoppingCartAdapter(var context: Context, var cartItems: List<CartItem>) :
+class ShoppingCartAdapter(var context: Context, var cartItems: List<CartItem>,val totalPriceTextView: TextView) :
     RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ShoppingCartAdapter.ViewHolder {
@@ -39,12 +39,14 @@ class ShoppingCartAdapter(var context: Context, var cartItems: List<CartItem>) :
         private val deleteCart: ImageView = itemView.findViewById(R.id.eachCartItemDeleteBtn)
 
         fun bindItem(cartItem: CartItem) {
-            var totalPrice = 0.0
+
             imageView.load("http://192.168.1.6:9090/img/"+cartItem.product.image)
             textView.text = cartItem.product.name
             //textView2.text = "$${cartItem.product.price}"
             textView3.text = cartItem.quantity.toString()
-            totalPrice += cartItem.product.price * cartItem.quantity
+            var totalPrice = cartItem.product.price * cartItem.quantity
+
+
             textView2.text = "$${totalPrice}"
 
             Observable.create(ObservableOnSubscribe<MutableList<CartItem>> { emitter ->
@@ -65,19 +67,25 @@ class ShoppingCartAdapter(var context: Context, var cartItems: List<CartItem>) :
                     ShoppingCart.deleteItem(item, itemView.context)
                     emitter.onNext(ShoppingCart.getCart())
                 }
+
             }).subscribe { cart ->
                 var quantity = 0
+                var totalPricee = 0.0
 
                 cart.forEach { cartItem ->
                     quantity += cartItem.quantity
+                    totalPricee += cartItem.product.price * cartItem.quantity
 
                 }
-                //textView3.text = quantity.toString()
-                cartItems = cart // update the list of cart items
 
+                //textView3.text = quantity.toString()
+
+                cartItems = cart // update the list of cart items
+                totalPriceTextView.text = "$${totalPricee}"
                 notifyDataSetChanged()
             }
         }
     }
+
 }
 

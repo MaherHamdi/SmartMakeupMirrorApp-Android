@@ -2,15 +2,11 @@ package com.example.smartmakeupmirrorapp
 
 import android.content.Context
 import android.content.Intent
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import com.example.smartmakeupmirrorapp.Retrofit.SharedPrefManager
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var nametxt: TextView
@@ -19,6 +15,9 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var edit: AppCompatButton
     private lateinit var back: ImageView
     private lateinit var home: ImageView
+    private lateinit var cartView: ImageView
+    private lateinit var  cartSize : TextView
+    private lateinit var  fav : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -26,6 +25,15 @@ class SettingsActivity : AppCompatActivity() {
         edit = findViewById(R.id.edit)
         back = findViewById(R.id.backBtn)
         home = findViewById(R.id.imageView3)
+        cartView = findViewById(R.id.imageViewhom)
+        fav = findViewById(R.id.imageViewfav)
+        //cartSize =  findViewById(R.id.cart_size)
+        fav.setOnClickListener {
+            startActivity(Intent(applicationContext, FavoriteActivity::class.java))
+        }
+        cartView.setOnClickListener {
+            startActivity(Intent(applicationContext, ShoppingCartActivity::class.java))
+        }
         back.setOnClickListener{
             startActivity(Intent(applicationContext, AcceuilActivity::class.java))
         }

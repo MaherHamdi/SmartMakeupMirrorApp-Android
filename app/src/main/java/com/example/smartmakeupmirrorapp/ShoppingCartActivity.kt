@@ -1,19 +1,23 @@
 package com.example.smartmakeupmirrorapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartmakeupmirrorapp.Adapter.ShoppingCartAdapter
+import com.example.smartmakeupmirrorapp.Models.CartItem
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
+
 
 class ShoppingCartActivity : AppCompatActivity() {
 
@@ -24,6 +28,8 @@ class ShoppingCartActivity : AppCompatActivity() {
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
     lateinit var paymentIntentClientSecret: String
     private lateinit var checkout: Button
+    private lateinit var cartItems: List<CartItem>
+    private lateinit var back: ImageView
 
 
 
@@ -34,6 +40,11 @@ class ShoppingCartActivity : AppCompatActivity() {
         recyclerViewCart = findViewById(R.id.shopping_cart_recyclerView)
         total_price = findViewById(R.id.total_price)
         checkout = findViewById(R.id.checkout)
+        back = findViewById(R.id.backBtn)
+        back.setOnClickListener{
+            startActivity(Intent(applicationContext, AcceuilActivity::class.java))
+        }
+
 
         checkout.setOnClickListener {
             "http://192.168.1.6:9090/payment-sheet".httpPost().responseJson { _, _, result ->
@@ -46,21 +57,24 @@ class ShoppingCartActivity : AppCompatActivity() {
                     )
                     val publishableKey = responseJson.getString("publishableKey")
                     PaymentConfiguration.init(this, publishableKey)
-                    val totalPrice = ShoppingCart.getCart().fold(0.toDouble()) { acc, cartItem -> acc + cartItem.quantity.times(cartItem.product.price!!.toDouble()) }
-                    val amount = (totalPrice * 100).toLong()
-                    presentPaymentSheet(amount)
+                   // val totalPrice = ShoppingCart.getCart().fold(0.toDouble()) { acc, cartItem -> acc + cartItem.quantity.times(cartItem.product.price!!.toDouble()) }
+                   // val amount = (totalPrice * 100).toLong()
+                    presentPaymentSheet()
                 }
             }
         }
 
-        adapter = ShoppingCartAdapter(this, ShoppingCart.getCart())
-        adapter.notifyDataSetChanged()
+        adapter = ShoppingCartAdapter(this, ShoppingCart.getCart(), total_price)
+
         recyclerViewCart.layoutManager = LinearLayoutManager(this)
         recyclerViewCart.adapter = adapter
-        adapter.notifyDataSetChanged()
+
+        cartItems = ShoppingCart.getCart()
+
+
         var totalPrice = ShoppingCart.getCart().fold(0.toDouble()) { acc, cartItem -> acc + cartItem.quantity.times(cartItem.product.price!!.toDouble()) }
         total_price.text = "$${totalPrice}"
-        adapter.notifyDataSetChanged()
+
     }
 
 
@@ -77,7 +91,7 @@ class ShoppingCartActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item!!)
     }
 
-    fun presentPaymentSheet(amount: Long) {
+    fun presentPaymentSheet() {
         paymentSheet.presentWithPaymentIntent(
             paymentIntentClientSecret,
 
@@ -87,6 +101,8 @@ class ShoppingCartActivity : AppCompatActivity() {
                 // Set `allowsDelayedPaymentMethods` to true if your business
                 // can handle payment methods that complete payment after a delay, like SEPA Debit and Sofort.
                 allowsDelayedPaymentMethods = true,
+
+
 
 
             )
@@ -103,9 +119,10 @@ class ShoppingCartActivity : AppCompatActivity() {
             }
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
-                ShoppingCart.deleteCheckout()
-                adapter.notifyDataSetChanged()
 
+                ShoppingCart.deleteCheckout()
+                ShoppingCart.getCart()
+                adapter.notifyDataSetChanged()
                 print("Completed")
             }
         }

@@ -4,11 +4,14 @@ package com.example.smartmakeupmirrorapp.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.smartmakeupmirrorapp.Favorite
 import com.example.smartmakeupmirrorapp.Models.CartItem
+import com.example.smartmakeupmirrorapp.Models.FavoriteItem
 import com.example.smartmakeupmirrorapp.Models.Product
 import com.example.smartmakeupmirrorapp.R
 import com.example.smartmakeupmirrorapp.ShoppingCart
@@ -26,6 +29,7 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
         val image : ImageView =itemView.findViewById(R.id.imageView)
         val addToCart : FloatingActionButton =itemView.findViewById(R.id.addProduct)
         //val cartSize : TextView = itemView.findViewById(R.id.cart_size)
+        private val addFav: CheckBox = itemView.findViewById(R.id.checkBoxFav)
 
 
         fun bind(product: Product) {
@@ -33,9 +37,9 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
             productDes.text = product.description
             productPrice.text = product.price.toString()
             image.load("http://192.168.1.6:9090/img/"+product.image)
-            Observable.create(ObservableOnSubscribe<MutableList<CartItem>> {
+            Observable.create(ObservableOnSubscribe<MutableList<CartItem>> { emitter ->
 
-                addToCart.setOnClickListener { view ->
+                addToCart.setOnClickListener {
 
                     val item = CartItem(product)
 
@@ -43,7 +47,7 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
                     //notify users
 
 
-                    it.onNext(ShoppingCart.getCart())
+                    emitter.onNext(ShoppingCart.getCart())
 
                 }
 
@@ -66,6 +70,26 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
 //            }
 //                Toast.makeText(itemView.context, "${product.name} added to your cart", Toast.LENGTH_SHORT).show()
 
+
+            }
+            Observable.create(ObservableOnSubscribe<MutableList<FavoriteItem>> { emitter ->
+                addFav.setOnCheckedChangeListener { checkBox, isChecked ->
+                    if (isChecked) {
+
+                        val item = FavoriteItem(product)
+                        Favorite.addItem(item)
+                        emitter.onNext(Favorite.getFavorite())
+
+                    }
+                }
+
+
+
+            }).subscribe { cart ->
+
+                //textView3.text = quantity.toString()
+
+            // update the list of cart items
 
             }
 

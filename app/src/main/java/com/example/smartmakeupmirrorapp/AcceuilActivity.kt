@@ -33,6 +33,7 @@ class AcceuilActivity : AppCompatActivity() {
     private lateinit var profile: ImageView
     private lateinit var cartView: ImageView
     private lateinit var  cartSize : TextView
+    private lateinit var  fav : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,11 @@ class AcceuilActivity : AppCompatActivity() {
         //recyclerViewCategories.layoutManager = linearLayoutManager
         profile = findViewById(R.id.imageViewuser)
         cartView = findViewById(R.id.imageViewhom)
+        fav = findViewById(R.id.imageViewfav)
         //cartSize =  findViewById(R.id.cart_size)
+        fav.setOnClickListener {
+            startActivity(Intent(applicationContext, FavoriteActivity::class.java))
+        }
         cartView.setOnClickListener {
             startActivity(Intent(applicationContext, ShoppingCartActivity::class.java))
         }
