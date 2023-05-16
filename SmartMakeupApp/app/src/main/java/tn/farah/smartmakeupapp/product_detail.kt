@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import coil.load
 import tn.farah.smartmakeupapp.data.models.Product
+import tn.farah.smartmakeupapp.data.repo.network.ProductRepo
 
 class product_detail : AppCompatActivity() {
 
@@ -22,7 +23,7 @@ var prixProduct : TextView=findViewById(R.id.product_prix_detail)
     nameProduct.text=product.name
     desProduct.text=product.description
     prixProduct.text=product.price.toString()
-    image.load("http://192.168.1.103:9090/img/"+product.image)
+    image.load(ProductRepo.BASE_URL+"img/"+product.image)
 
 }
     }

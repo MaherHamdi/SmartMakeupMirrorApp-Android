@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Product
+import tn.farah.smartmakeupapp.data.repo.network.ProductRepo
 
 class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<ProductAdapter.ViewHolder>()  {
     var onItemClick : ((Product)->Unit)?=null
@@ -16,13 +17,13 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
         private val productName : TextView = itemView.findViewById(R.id.product_name)
         private val productDes : TextView = itemView.findViewById(R.id.product_description)
         private val productPrice : TextView = itemView.findViewById(R.id.product_price)
-val image : ImageView=itemView.findViewById(R.id.imageView_new_Product)
+val image : ImageView=itemView.findViewById(R.id.imageViewProduct)
 
         fun bind(product: Product) {
             productName.text = product.name
             productDes.text = product.description
             productPrice.text = product.price.toString()
-image.load("http://192.168.1.103:9090/img/"+product.image)
+image.load(ProductRepo.BASE_URL+"img/"+product.image)
         }
     }
 

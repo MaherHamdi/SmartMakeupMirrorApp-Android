@@ -11,6 +11,7 @@ import tn.farah.smartmakeupapp.data.models.SubCategory
 
 class SubCategoryAdapter(private val subCategories: List<SubCategory>): RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
 
+    var onItemClick : ((SubCategory)->Unit)?=null
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView : TextView = itemView.findViewById(R.id.categoryName)
@@ -28,6 +29,10 @@ class SubCategoryAdapter(private val subCategories: List<SubCategory>): Recycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val subCategory = subCategories[position]
         holder.bind(subCategory)
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke((subCategory))
+        }
+
     }
 
     override fun getItemCount(): Int {

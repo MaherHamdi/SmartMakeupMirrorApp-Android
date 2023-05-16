@@ -1,14 +1,21 @@
 package tn.farah.smartmakeupapp.Adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Product
+import tn.farah.smartmakeupapp.data.models.ProductsIsFaved
+import tn.farah.smartmakeupapp.data.repo.network.ProductRepo
 
 class NewProductAdapter (private val new_products: List<Product>): RecyclerView.Adapter<NewProductAdapter.ViewHolder>()  {
 var onItemClick : ((Product)->Unit)?=null
@@ -16,15 +23,63 @@ var onItemClick : ((Product)->Unit)?=null
         private val productName : TextView = itemView.findViewById(R.id.product_name)
         private val productDes : TextView = itemView.findViewById(R.id.product_description)
         private val productPrice : TextView = itemView.findViewById(R.id.product_price)
-private val image :ImageView = itemView.findViewById(R.id.imageView_new_Product)
-
+        private val image :ImageView = itemView.findViewById(R.id.imageView_new_product)
+       private val checkBoxFav :CheckBox = itemView.findViewById(R.id.checkBoxFav)
+        val TAG = "testCheked"
         fun bind(product: Product) {
             productName.text = product.name
             productDes.text = product.description
             productPrice.text = product.price.toString()
-            image.load("http://192.168.1.103:9090/img/"+product.image)
+            image.load(ProductRepo.BASE_URL+"img/"+product.image)
+ if(product.isFaved==true){
+    checkBoxFav.setChecked(true)
 
+}else{
+     checkBoxFav.setChecked(false)
+
+ }
+            checkBoxFav. setOnCheckedChangeListener { _, isChecked ->
+                // Code à exécuter lorsque l'état du CheckBox est modifié
+                if (isChecked) {
+                    val productsIsFaved=ProductsIsFaved(true)
+                    ProductRepo.apiService.updateFavedProduct(product._id,productsIsFaved).enqueue(object :
+                        Callback<Product>{
+                        override fun onResponse(
+                            call: Call<Product>,
+                            response: Response<Product>
+                        ) {
+                            Log.e(TAG, "yesssssssss "+product)
+                            checkBoxFav.setChecked(true)
+
+                        }
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            Log.e(TAG, "Network request failed", t)
+                        }
+                         })
+
+                    // Le CheckBox est coché
+                    // Ajouter votre code ici
+                } else {
+                    val productsIsFaved=ProductsIsFaved(false)
+                    ProductRepo.apiService.updateFavedProduct(product._id,productsIsFaved).enqueue(object :
+                        Callback<Product>{
+                        override fun onResponse(
+                            call: Call<Product>,
+                            response: Response<Product>
+                        ) {
+                            Log.e(TAG, "noooooooooo : "+product)
+                        }
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            Log.e(TAG, "Network request failed", t)
+                        }
+                    })
+
+                    // Le CheckBox est décoché
+                    // Ajouter votre code ici
+                }
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,4 +99,5 @@ private val image :ImageView = itemView.findViewById(R.id.imageView_new_Product)
     override fun getItemCount(): Int {
         return new_products.size
     }
+
 }

@@ -66,3 +66,6 @@ data class Product(@Json(name="_id")val _id:String,
 
  class NewProducts(@Json (name="new")val new: Boolean)
 class ProductsByCategory(@Json (name="category")val category: String)
+class ProductsBySubCategory(@Json (name="subCategory")val subCategory: String)
+
+class ProductsIsFaved(@Json (name="isFaved")val isFaved: Boolean)

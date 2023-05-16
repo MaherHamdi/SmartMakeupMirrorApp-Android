@@ -13,12 +13,13 @@ import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
-import tn.farah.smartmakeupapp.data.models.NewProducts
-import tn.farah.smartmakeupapp.data.models.Product
-import tn.farah.smartmakeupapp.data.models.ProductsByCategory
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
+import tn.farah.smartmakeupapp.data.models.*
 
 object ProductRepo{
-public const val  BASE_URL = "http://192.168.1.103:9090/"
+public const val  BASE_URL = "http://192.168.115.73:9090/"
 /**
  * Build the Moshi object with Kotlin adapter factory that Retrofit will be using.
  */
@@ -60,6 +61,16 @@ interface ProductService {
 
 @POST ("product/ProductByCategory")
   fun  getProductByCategory(@Body category :ProductsByCategory):Call<List<Product>>
+
+    @POST ("product/isFaved")
+    fun  getFavedProduct(@Body isFaved :ProductsIsFaved):Call<List<Product>>
+
+
+    @PUT ("product/{id}")
+    fun  updateFavedProduct(@Path("id")id:String,@Body isFaved :ProductsIsFaved):Call<Product>
+
+    @POST("product/ProductBySuCategory")
+fun getProductBySubCategory(@Body subCategory:ProductsBySubCategory):Call<List<Product>>
 
 }
 

@@ -32,92 +32,152 @@ class product_by_category : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_by_category)
         val category = intent.getParcelableExtra<Category>("category")
-
         val TAGSubCategory = "SubCategoryList"
-val categoryforSubCategory = SubCategoryByCategory(category!!._id)
-         val textView : TextView = findViewById(R.id.product_name_by_category)
-        val items_Nb : TextView = findViewById(R.id.product_item_number)
+        val categoryforSubCategory = SubCategoryByCategory(category!!._id)
+        val textView: TextView = findViewById(R.id.product_name_by_category)
+        val items_Nb: TextView = findViewById(R.id.product_item_number)
 
 
-        textView.text=category!!.name
-        SubCategoryRepo.apiService.getSubCategoryByCategorys(categoryforSubCategory).enqueue(object : Callback<List<SubCategory>> {
-            override fun onResponse(call: Call<List<SubCategory>>, response: Response<List<SubCategory>>) {
-                if (response.isSuccessful) {
-                    recyclerViewSubCategory = findViewById(R.id.recyclerViewSubCategory)
+        textView.text = category!!.name
+        SubCategoryRepo.apiService.getSubCategoryByCategorys(categoryforSubCategory)
+            .enqueue(object : Callback<List<SubCategory>> {
+                override fun onResponse(
+                    call: Call<List<SubCategory>>,
+                    response: Response<List<SubCategory>>
+                ) {
+                    if (response.isSuccessful) {
+                        recyclerViewSubCategory = findViewById(R.id.recyclerViewSubCategory)
 
-                    recyclerViewSubCategory.layoutManager = StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL)
+                        recyclerViewSubCategory.layoutManager =
+                            StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
 
-                    val subCategorysList = response.body()
-                    subCategorysList?.let{
-                        subCategoryAdapter= SubCategoryAdapter(subCategorysList)
-                        recyclerViewSubCategory.adapter = subCategoryAdapter
+                        val subCategorysList = response.body()
+                        subCategorysList?.let {
+                            subCategoryAdapter = SubCategoryAdapter(subCategorysList)
+                            recyclerViewSubCategory.adapter = subCategoryAdapter
+                            subCategoryAdapter.onItemClick = {
+                                    subCategory ->
+                                myFunction(subCategory)
+                           //     subCategoryId ->
 
+                              //  getProductBySubCategory(category!!._id)
+                            //    val subCategory = intent.getParcelableExtra<SubCategory>("subCategory")
+                             //   if (subCategory != null) {
+                                 //   val TAG = "ProductList"
+                                //    Log.e(TAG, "Response successful: $subCategory")
+
+
+
+                            }
+
+
+                        }
+
+                        //Log.e(TAGSubCategory, "Response  successful. : ${subCategorysList}")
+
+                    } else {
+                        Log.e(
+                            TAGSubCategory,
+                            "Response not successful. Status code: ${response.code()}"
+                        )
                     }
 
-                    Log.e(TAGSubCategory, "Response  successful. : ${subCategorysList}")
 
-                } else {
-                    Log.e(TAGSubCategory, "Response not successful. Status code: ${response.code()}")
                 }
 
-
-            }
-
-            override fun onFailure(call: Call<List<SubCategory>>, t: Throwable) {
-                Log.e(TAGSubCategory, "Network request failed", t)
-            }
-        })
+                override fun onFailure(call: Call<List<SubCategory>>, t: Throwable) {
+                    Log.e(TAGSubCategory, "Network request failed", t)
+                }
+            })
 
 
+        getProductBySubCategory(category!!._id)
 
 
-
-
-
-
-
-
-
-
+    }
 
 
                                  /////////////////////////prduct//////////////////////////////
-        val spaceHeight = resources.getDimensionPixelSize(R.dimen.right)
-        val itemDecoration = CustomItemDecoration(spaceHeight)
-        val TAG = "ProductList"
-val categoryForProduct = ProductsByCategory(category!!._id)
-        ProductRepo.apiService.getProductByCategory(categoryForProduct).enqueue(object : Callback<List<Product>> {
-            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
-                if (response.isSuccessful) {
-                    recyclerViewProduct=findViewById(R.id.recyclerViewProduct)
-                    recyclerViewProduct?.layoutManager = StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL)
+    fun myFunction(subCategory:SubCategory){
+                                     //   val TAG = "ProductList"
+                                     //   Log.e(TAG, "Response  successful. : ${subCategory}")
+                                     val TAG = "ProductList"
 
-                    val productsList = response.body()
-                    items_Nb.text= productsList!!.size.toString() 
-                    productsList?.let{
-                        productAdapter = ProductAdapter(productsList)
-                        recyclerViewProduct.adapter=productAdapter
-                        recyclerViewProduct.addItemDecoration(itemDecoration)
-                        productAdapter.onItemClick={
-                            val intent = Intent(applicationContext,product_detail::class.java)
-                            intent.putExtra("product",it)
-                            startActivity(intent)
-                        }
-                    }
+                                     val spaceHeight = resources.getDimensionPixelSize(R.dimen.right)
+                                     val itemDecoration = CustomItemDecoration(spaceHeight)
 
-                    Log.e(TAG, "Response  successful. : ${productsList}")
+                                     val subCategoryForProduct = ProductsBySubCategory(subCategory!!._id)
+                                     ProductRepo.apiService.getProductBySubCategory(subCategoryForProduct).enqueue(object : Callback<List<Product>> {
+                                         override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                                             if (response.isSuccessful) {
+                                                 recyclerViewProduct=findViewById(R.id.recyclerViewProduct)
+                                                 recyclerViewProduct?.layoutManager = StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL)
 
-                } else {
-                    Log.e(TAG, "Response not successful. Status code: ${response.code()}")
-                }
+                                                 val productsList = response.body()
+                                                 // items_Nb.text= productsList!!.size.toString()
+                                                 productsList?.let{
+                                                     productAdapter = ProductAdapter(productsList)
+                                                     recyclerViewProduct.adapter=productAdapter
+                                                     recyclerViewProduct.addItemDecoration(itemDecoration)
+                                                     productAdapter.onItemClick={
+                                                         val intent = Intent(applicationContext,product_detail::class.java)
+                                                         intent.putExtra("product",it)
+                                                         startActivity(intent)
+                                                     }
+                                                 }
+
+                                                 Log.e(TAG, "Response  successful. : ${productsList}")
+
+                                             } else {
+                                                 Log.e(TAG, "Response not successful. Status code: ${response.code()}")
+                                             }
 
 
-            }
+                                         }
 
-            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-                Log.e(TAG, "Network request failed", t)
-            }
-        })
+                                         override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                                             Log.e(TAG, "Network request failed", t)
+                                         }
+                                     })
 
     }
+fun getProductBySubCategory(id:String){
+    val spaceHeight = resources.getDimensionPixelSize(R.dimen.right)
+    val itemDecoration = CustomItemDecoration(spaceHeight)
+    val TAG = "ProductList"
+    val categoryForProduct = ProductsByCategory(id)
+    ProductRepo.apiService.getProductByCategory(categoryForProduct).enqueue(object : Callback<List<Product>> {
+        override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+            if (response.isSuccessful) {
+                recyclerViewProduct=findViewById(R.id.recyclerViewProduct)
+                recyclerViewProduct?.layoutManager = StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL)
+
+                val productsList = response.body()
+               // items_Nb.text= productsList!!.size.toString()
+                productsList?.let{
+                    productAdapter = ProductAdapter(productsList)
+                    recyclerViewProduct.adapter=productAdapter
+                    recyclerViewProduct.addItemDecoration(itemDecoration)
+                    productAdapter.onItemClick={
+                        val intent = Intent(applicationContext,product_detail::class.java)
+                        intent.putExtra("product",it)
+                        startActivity(intent)
+                    }
+                }
+
+                Log.e(TAG, "Response  successful. : ${productsList}")
+
+            } else {
+                Log.e(TAG, "Response not successful. Status code: ${response.code()}")
+            }
+
+
+        }
+
+        override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+            Log.e(TAG, "Network request failed", t)
+        }
+    })
+
 }
+    }
