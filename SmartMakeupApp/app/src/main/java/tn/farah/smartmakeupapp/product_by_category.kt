@@ -1,10 +1,12 @@
 package tn.farah.smartmakeupapp
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -15,6 +17,7 @@ import retrofit2.Response
 
 import tn.farah.smartmakeupapp.Adapter.ProductAdapter
 import tn.farah.smartmakeupapp.Adapter.SubCategoryAdapter
+import tn.farah.smartmakeupapp.R.id.category
 import tn.farah.smartmakeupapp.data.models.*
 import tn.farah.smartmakeupapp.data.models.Product
 import tn.farah.smartmakeupapp.data.repo.network.ProductRepo
@@ -27,11 +30,13 @@ class product_by_category : AppCompatActivity() {
     private lateinit var recyclerViewProduct: RecyclerView
     private lateinit var products: ArrayList<Product>
     private lateinit var productAdapter: ProductAdapter
-
+private lateinit var categoryLayout:ConstraintLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_by_category)
         val category = intent.getParcelableExtra<Category>("category")
+        //val categoryLayout: ConstraintLayout = findViewById(R.id.category)
+
         val TAGSubCategory = "SubCategoryList"
         val categoryforSubCategory = SubCategoryByCategory(category!!._id)
         val textView: TextView = findViewById(R.id.product_name_by_category)
@@ -56,6 +61,7 @@ class product_by_category : AppCompatActivity() {
                             subCategoryAdapter = SubCategoryAdapter(subCategorysList)
                             recyclerViewSubCategory.adapter = subCategoryAdapter
                             subCategoryAdapter.onItemClick = {
+
                                     subCategory ->
                                 myFunction(subCategory)
                            //     subCategoryId ->
@@ -99,6 +105,8 @@ class product_by_category : AppCompatActivity() {
 
                                  /////////////////////////prduct//////////////////////////////
     fun myFunction(subCategory:SubCategory){
+                                     val items_Nb: TextView = findViewById(R.id.product_item_number)
+
                                      //   val TAG = "ProductList"
                                      //   Log.e(TAG, "Response  successful. : ${subCategory}")
                                      val TAG = "ProductList"
@@ -114,7 +122,7 @@ class product_by_category : AppCompatActivity() {
                                                  recyclerViewProduct?.layoutManager = StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL)
 
                                                  val productsList = response.body()
-                                                 // items_Nb.text= productsList!!.size.toString()
+                                                  items_Nb.text= productsList!!.size.toString()
                                                  productsList?.let{
                                                      productAdapter = ProductAdapter(productsList)
                                                      recyclerViewProduct.adapter=productAdapter
@@ -142,6 +150,10 @@ class product_by_category : AppCompatActivity() {
 
     }
 fun getProductBySubCategory(id:String){
+    val items_Nb: TextView = findViewById(R.id.product_item_number)
+
+    //categoryLayout= findViewById(R.id.category)
+    //categoryLayout.setBackgroundColor(Color.parseColor("#FF0000"))
     val spaceHeight = resources.getDimensionPixelSize(R.dimen.right)
     val itemDecoration = CustomItemDecoration(spaceHeight)
     val TAG = "ProductList"
@@ -153,7 +165,7 @@ fun getProductBySubCategory(id:String){
                 recyclerViewProduct?.layoutManager = StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL)
 
                 val productsList = response.body()
-               // items_Nb.text= productsList!!.size.toString()
+               items_Nb.text= productsList!!.size.toString()
                 productsList?.let{
                     productAdapter = ProductAdapter(productsList)
                     recyclerViewProduct.adapter=productAdapter

@@ -19,7 +19,7 @@ import retrofit2.http.Query
 import tn.farah.smartmakeupapp.data.models.*
 
 object ProductRepo{
-public const val  BASE_URL = "http://192.168.115.73:9090/"
+public const val  BASE_URL = "http://192.168.1.103:9090/"
 /**
  * Build the Moshi object with Kotlin adapter factory that Retrofit will be using.
  */

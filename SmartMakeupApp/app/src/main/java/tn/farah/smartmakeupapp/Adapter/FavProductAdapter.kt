@@ -9,8 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import tn.farah.smartmakeupapp.R
 import tn.farah.smartmakeupapp.data.models.Product
+import tn.farah.smartmakeupapp.data.models.ProductsIsFaved
 import tn.farah.smartmakeupapp.data.repo.network.ProductRepo
 
 class FavProductAdapter  (private val fav_products: List<Product>): RecyclerView.Adapter<FavProductAdapter.ViewHolder>()  {
@@ -25,22 +29,57 @@ class FavProductAdapter  (private val fav_products: List<Product>): RecyclerView
             productName.text = product.name
             productPrice.text = product.price.toString()
             image.load(ProductRepo.BASE_URL+"img/"+product.image)
-            checkBoxFav.setChecked(true)
 
-            checkBoxFav.setOnCheckedChangeListener { _, isChecked ->
+
+            checkBoxFav.setChecked(true)
+            if(product.isFaved==true){
+                checkBoxFav.setChecked(true)
+
+            }else{
+                checkBoxFav.setChecked(false)
+
+            }
+            checkBoxFav. setOnCheckedChangeListener { _, isChecked ->
                 // Code à exécuter lorsque l'état du CheckBox est modifié
                 if (isChecked) {
-                    Log.e(TAG, "yesssssssss "+product)
+                    val productsIsFaved= ProductsIsFaved(true)
+                    ProductRepo.apiService.updateFavedProduct(product._id,productsIsFaved).enqueue(object :
+                        Callback<Product> {
+                        override fun onResponse(
+                            call: Call<Product>,
+                            response: Response<Product>
+                        ) {
+                            Log.e(TAG, "yesssssssss "+product)
+                            checkBoxFav.setChecked(true)
+
+                        }
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            Log.e(TAG, "Network request failed", t)
+                        }
+                    })
 
                     // Le CheckBox est coché
                     // Ajouter votre code ici
                 } else {
-                    Log.e(TAG, "noooooooooo : "+product)
+                    val productsIsFaved= ProductsIsFaved(false)
+                    ProductRepo.apiService.updateFavedProduct(product._id,productsIsFaved).enqueue(object :
+                        Callback<Product> {
+                        override fun onResponse(
+                            call: Call<Product>,
+                            response: Response<Product>
+                        ) {
+                            Log.e(TAG, "noooooooooo : "+product)
+                        }
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            Log.e(TAG, "Network request failed", t)
+                        }
+                    })
 
                     // Le CheckBox est décoché
                     // Ajouter votre code ici
                 }
             }
+
         }
 
     }

@@ -151,7 +151,51 @@ class AcceuilActivity : AppCompatActivity() {
                     }
                 })
 
-        }
+
+/*
+        //////////////////////////////new_product/////////////////////////////////////////////////
+        val TAG2 = "NewProductList"
+        val recentlyViewedArticless = NewProducts(true)
+        ProductRepo.apiService.getNewProducts(recentlyViewedArticless)
+            .enqueue(object : Callback<List<Product>> {
+
+
+                override fun onResponse(
+                    call: Call<List<Product>>,
+                    response: Response<List<Product>>
+                ) {
+                    if (response.isSuccessful) {
+                        recyclerViewNewProduct = findViewById(R.id.recentlyViewedArticles)
+                        recyclerViewNewProduct?.layoutManager =
+                            StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
+
+                        val newProductsList = response.body()
+                        newProductsList?.let {
+                            newProductAdapter = NewProductAdapter(newProductsList)
+                            recyclerViewNewProduct.adapter = newProductAdapter
+
+                            newProductAdapter.onItemClick = {
+                                val intent =
+                                    Intent(applicationContext, product_detail::class.java)
+                                intent.putExtra("product", it)
+                                startActivity(intent)
+                            }
+                        }
+                        Log.e(TAG, "Response  successful. : ${newProductsList}")
+
+                    } else {
+                        Log.e(TAG, "Response not successful. Status code: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                    Log.e(TAG, "Network request failed", t)
+                }
+            })*/
+
+    }
+
+
         fun showToast(str: String) {
             Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
         }
