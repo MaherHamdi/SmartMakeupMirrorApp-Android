@@ -36,7 +36,7 @@ class ProductAdapter(private val products: List<Product>): RecyclerView.Adapter<
             productName.text = product.name
             productDes.text = product.description
             productPrice.text = product.price.toString()
-            image.load("http://192.168.1.6:9090/img/"+product.image)
+            image.load("http://192.168.1.9:9090/img/"+product.image)
             Observable.create(ObservableOnSubscribe<MutableList<CartItem>> { emitter ->
 
                 addToCart.setOnClickListener {

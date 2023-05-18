@@ -39,7 +39,7 @@ class FavoriteAdapter(var context: Context, var cartItems: List<FavoriteItem>) :
 
         fun bindItem(cartItem: FavoriteItem) {
 
-            imageView.load("http://192.168.1.6:9090/img/"+cartItem.product.image)
+            imageView.load("http://192.168.1.5:9090/img/"+cartItem.product.image)
             textView.text = cartItem.product.name
             textView2.text = "$${cartItem.product.price}"
 

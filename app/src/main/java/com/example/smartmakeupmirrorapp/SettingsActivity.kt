@@ -3,8 +3,11 @@ package com.example.smartmakeupmirrorapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 
@@ -18,15 +21,33 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var cartView: ImageView
     private lateinit var  cartSize : TextView
     private lateinit var  fav : ImageView
+    private lateinit var pwdpage : ImageView
+    private var isDarkThemeEnabled = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isDarkThemeEnabled) {
+            setTheme(R.style.Theme_SmartMakeupMirrorApp_Dark)
+        } else {
+            setTheme(R.style.Theme_SmartMakeupMirrorApp)
+        }
         setContentView(R.layout.activity_settings)
+        val switchDarkTheme = findViewById<Switch>(R.id.darktheme)
+        switchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
+            isDarkThemeEnabled = isChecked
+            recreate() // Recreate the activity to apply the new theme
+        }
         logoutB = findViewById(R.id.logoutt)
         edit = findViewById(R.id.edit)
         back = findViewById(R.id.backBtn)
         home = findViewById(R.id.imageView3)
         cartView = findViewById(R.id.imageViewhom)
         fav = findViewById(R.id.imageViewfav)
+        pwdpage = findViewById(R.id.changepw)
+
+        pwdpage.setOnClickListener {
+            UpdatePasswordFragment().show(supportFragmentManager, "MyCustomFragment")
+        }
         //cartSize =  findViewById(R.id.cart_size)
         fav.setOnClickListener {
             startActivity(Intent(applicationContext, FavoriteActivity::class.java))
@@ -73,5 +94,7 @@ class SettingsActivity : AppCompatActivity() {
         emailtxt.text = email
 
 
+
     }
+
 }

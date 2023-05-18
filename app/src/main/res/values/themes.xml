@@ -46,6 +46,18 @@
         <item name="colorSwitchThumbNormal">#6FFFFFFF</item>
         <item name="android:colorForeground">#6FFFFFFF</item>
     </style>
+    <style name="Theme.SmartMakeupMirrorApp.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize the dark theme attributes -->
+        <item name="colorPrimary">#0C0C0C</item>
+        <item name="colorPrimaryVariant">#1F1F1F</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#009688</item>
+        <item name="colorSecondaryVariant">#00695C</item>
+        <item name="colorOnSecondary">#000000</item>
+        <item name="android:statusBarColor">#0C0C0C</item>
+        <!-- Customize other dark theme attributes -->
+    </style>
+
 
 
 </resources>

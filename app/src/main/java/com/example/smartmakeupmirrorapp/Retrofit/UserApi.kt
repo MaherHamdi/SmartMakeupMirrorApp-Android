@@ -1,5 +1,6 @@
 package com.example.smartmakeupmirrorapp.Retrofit
 
+import com.example.smartmakeupmirrorapp.Models.ChangePasswordRequest
 import com.example.smartmakeupmirrorapp.Models.UserRequest
 import com.example.smartmakeupmirrorapp.Models.UserResponse
 import okhttp3.RequestBody
@@ -25,6 +26,7 @@ interface UserApi {
         @Body userRequest: UserRequest
     ): Call<UserResponse>
 
+
     @POST("recover")
     fun forgotPwd(
         @Body userRequest: UserRequest
@@ -42,6 +44,11 @@ interface UserApi {
         @Path("email") email: String,
         @Body userRequest: UserRequest
     ): Call<UserResponse>
+    @PUT("change/{email}")
+    fun changePassword(
+        @Path("email") email: String,
+        @Body requestBody: ChangePasswordRequest
+    ): Call<Void>
 
 
     @PUT("users")

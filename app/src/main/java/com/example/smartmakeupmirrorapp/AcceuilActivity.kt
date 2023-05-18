@@ -2,7 +2,9 @@ package com.example.smartmakeupmirrorapp
 
 
 
+
 import ProductRepo
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,12 +14,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.smartmakeupmirrorapp.Adapter.CategoryAdapter
 import com.example.smartmakeupmirrorapp.Adapter.ProductAdapter
 import com.example.smartmakeupmirrorapp.Models.Category
 import com.example.smartmakeupmirrorapp.Models.Product
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.paperdb.Paper
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 
@@ -39,6 +44,13 @@ class AcceuilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_acceuil)
         Paper.init(this)
+        val buttonOpenCam = findViewById<FloatingActionButton>(R.id.video)
+        buttonOpenCam.setOnClickListener {
+
+            //     var intent = Intent(this, Camera::class.java)
+
+            var intent = Intent(this, ListVideoActivity::class.java)
+            startActivity(intent)}
       //  recyclerViewCategories = findViewById(R.id.recyclerViewCategory)
        // recyclerViewProduct = findViewById(R.id.recyclerViewProduct)
        // linearLayoutManager = LinearLayoutManager(this,  LinearLayoutManager.HORIZONTAL, false)
@@ -67,25 +79,45 @@ class AcceuilActivity : AppCompatActivity() {
         nametxt.text= "Hi $name"
         //cartSize.text = ShoppingCart.getShoppingCartSize().toString()
 
-        recyclerViewCategories = findViewById(R.id.recyclerViewCategory)
 
-        recyclerViewCategories.layoutManager =
-            LinearLayoutManager(applicationContext,  LinearLayoutManager.HORIZONTAL, false)
+        val TAG1 = "Category"
+        CategoryRepo.apiService.getGategorys().enqueue(object : Callback<List<Category>> {
+            override fun onResponse(
+                call: Call<List<Category>>,
+                response: Response<List<Category>>
+            ) {
+                if (response.isSuccessful) {
+                    recyclerViewCategories = findViewById(R.id.recyclerViewCategory)
 
-        categorys = ArrayList()
-        categorys.add(Category("1", "Vegan"))
-        categorys.add(Category("2", "Face"))
-        categorys.add(Category("3", "Eye"))
-        categorys.add(Category("4", "Lip"))
-        categorys.add(Category("5", "cate4"))
+                    recyclerViewCategories?.layoutManager =
+                        LinearLayoutManager(applicationContext,  LinearLayoutManager.HORIZONTAL, false)
 
-        categoryAdapter = CategoryAdapter(categorys)
-        recyclerViewCategories.adapter = categoryAdapter
-        categoryAdapter.onItemClick = {
-            val intent = Intent(this, ProdcutByCategoryActivity::class.java)
-            intent.putExtra("category", it)
-            startActivity(intent)
-        }
+                    val categorysList = response.body()
+                    categorysList?.let {
+                        categoryAdapter = CategoryAdapter(categorysList)
+                        recyclerViewCategories.adapter = categoryAdapter
+
+                        categoryAdapter.onItemClick = {
+                            val intent =
+                                Intent(applicationContext, ProdcutByCategoryActivity::class.java)
+                            intent.putExtra("category", it)
+                            startActivity(intent)
+                        }
+                    }
+
+                    Log.e(TAG1, "Response  successful. : ${categorysList}")
+
+                } else {
+                    Log.e(TAG1, "Response not successful. Status code: ${response.code()}")
+                }
+
+
+            }
+
+            override fun onFailure(call: Call<List<Category>>, t: Throwable) {
+                Log.e(TAG1, "Network request failed", t)
+            }
+        })
 
 
         val TAG = "ProductListFragment"

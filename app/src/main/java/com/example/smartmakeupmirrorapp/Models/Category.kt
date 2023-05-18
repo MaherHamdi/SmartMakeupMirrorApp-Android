@@ -1,8 +1,10 @@
 package com.example.smartmakeupmirrorapp.Models
 import android.os.Parcel
 import android.os.Parcelable
+import com.squareup.moshi.Json
 
-data class Category(val id: String, val name: String):Parcelable {
+data class Category(@Json(name="_id")val _id:String,
+                    @Json(name="name")val name:String):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!
@@ -10,7 +12,7 @@ data class Category(val id: String, val name: String):Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
+        parcel.writeString(_id)
         parcel.writeString(name)
     }
 

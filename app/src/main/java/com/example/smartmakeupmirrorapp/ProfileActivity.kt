@@ -4,6 +4,8 @@ import RetrofitClient
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -13,14 +15,29 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
+
 import com.example.smartmakeupmirrorapp.Models.UserRequest
 import com.example.smartmakeupmirrorapp.Models.UserResponse
 import com.example.smartmakeupmirrorapp.Retrofit.SharedPrefManager
 import com.example.smartmakeupmirrorapp.Retrofit.UserApi
+import com.google.android.gms.maps.*
+
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+
+
+
+
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var nameEd: EditText
@@ -31,9 +48,16 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var dateEd: EditText
     private lateinit var nametxt: TextView
     private lateinit var update: Button
+    private lateinit var mapView: MapView
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private lateinit var googleMap: GoogleMap
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_profile)
 
 
@@ -46,6 +70,13 @@ class ProfileActivity : AppCompatActivity() {
         dateEd.setInputType(InputType.TYPE_NULL)
         update = findViewById(R.id.btn_updt)
         back = findViewById(R.id.back)
+        addressEd.setOnClickListener {
+
+        }
+
+
+
+
 
         back.setOnClickListener {
             startActivity(Intent(applicationContext, SettingsActivity::class.java))
@@ -105,7 +136,9 @@ class ProfileActivity : AppCompatActivity() {
         nameEd.setText(name)
         emailEd.setText(email)
         phoneEd.setText(phone)
-        dateEd.setText(date)
+        if (date != null) {
+            dateEd.setText(date.take(10))
+        }
         addressEd.setText(address)
 
         nametxt.text= name
@@ -145,4 +178,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         })
     }
+
+
 }

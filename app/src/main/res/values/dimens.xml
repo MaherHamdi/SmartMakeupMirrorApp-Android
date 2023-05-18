@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="space_between_items">10dp</dimen>
+    <dimen name="right">5dp</dimen>
+
+
+</resources>

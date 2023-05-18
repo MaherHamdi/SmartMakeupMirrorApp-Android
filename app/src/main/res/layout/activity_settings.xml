@@ -102,6 +102,7 @@
                         android:textStyle="bold"
                         android:layout_toEndOf="@id/nightModeIcon" />
                     <Switch
+                        android:id="@+id/darktheme"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -111,67 +112,7 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/notificationIcon"
-                        android:src="@drawable/notif_icon"
-                        android:background="@drawable/round_back_notifications"
-                        android:padding="12dp"/>
-                    <TextView
-                        android:layout_marginStart="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Notifications"
-                        android:textColor="#603a91"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@id/notificationIcon" />
-                    <Switch
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"
-                        android:theme="@style/notificationSwitch" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/PrivateIcon"
-                        android:src="@drawable/private_icon"
-                        android:background="@drawable/round_private_account"
-                        android:padding="12dp"/>
-                    <TextView
-                        android:layout_marginStart="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Private"
-                        android:textColor="#603a91"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@id/PrivateIcon" />
-                    <Switch
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"
-                        android:theme="@style/privateSwitch" />
-
-                </RelativeLayout>
+                
 
 
 
@@ -203,11 +144,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Security"
+                    android:text="Change Password"
                     android:textColor="#603a91"
                     android:textStyle="bold"
                     android:layout_toEndOf="@id/SecurityIcon" />
                 <ImageView
+                    android:id="@+id/changepw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/right_arrow_icon"

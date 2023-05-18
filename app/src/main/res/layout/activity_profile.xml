@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
     <ImageView
         android:id="@+id/back"
         android:layout_width="50dp"
@@ -12,15 +13,7 @@
         android:src="@drawable/back_btn"
         android:padding="14dp" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animm"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:lottie_rawRes="@raw/delete"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="80dp"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -85,7 +78,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textEmailAddress"
+                        android:enabled="false"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -147,6 +141,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
+
                     <EditText
                         android:id="@+id/address"
                         android:layout_width="match_parent"
@@ -154,6 +149,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:inputType="text" />
+
 
 
 
@@ -183,5 +179,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
+
+
 
 </RelativeLayout>

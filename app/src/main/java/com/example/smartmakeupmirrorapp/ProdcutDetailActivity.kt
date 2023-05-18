@@ -17,36 +17,22 @@ class ProdcutDetailActivity : AppCompatActivity() {
     private lateinit var cartItem: CartItem
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
-        addCart = findViewById(R.id.addCart)
-        plusBtn = findViewById(R.id.plus)
-        minusBtn = findViewById(R.id.minus)
-        numberOrder = findViewById(R.id.numberOrder)
-        numberOrder.text = numberOr.toString()
-        plusBtn.setOnClickListener {
-            numberOr = numberOr + 1
-            numberOrder.text = numberOr.toString()
+        setContentView(R.layout.product_detail)
 
-        }
-        minusBtn.setOnClickListener {
-            if (numberOr > 1) {
-                numberOr = numberOr - 1
-            }
-            numberOrder.text = numberOr.toString()
-        }
+
 
 
         val product = intent.getParcelableExtra<Product>("product")
         if (product != null) {
-            var nameProduct: TextView = findViewById(R.id.titleText)
-            var desProduct: TextView = findViewById(R.id.descriptiontxt)
-            var prixProduct: TextView = findViewById(R.id.pricetxt)
-            var image : ImageView =findViewById(R.id.imageView6)
+            var nameProduct: TextView = findViewById(R.id.ProductNameee)
+            var desProduct: TextView = findViewById(R.id.textView13)
+            var prixProduct: TextView = findViewById(R.id.ProductPrice)
+            var image : ImageView =findViewById(R.id.ProductDetailimg)
 
             nameProduct.text = product.name
             desProduct.text = product.description
             prixProduct.text = product.price.toString() + "DT"
-            image.load("http://192.168.1.6:9090/img/"+product.image)
+            image.load("http://192.168.1.9:9090/img/"+product.image)
 
         }
 

@@ -3,4 +3,19 @@
     <string name="get_started">Get Started</string>
     <string name="skip">Skip</string>
     <string name="stripe_publishable_key" />
+    <string name="facebook_app_id">1025243211784816</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">c33e15293f1c5312354109e1818a5d3e</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoibWFoZXIxMSIsImEiOiJja2hrZ2kzdTQxYTY3MnlwNnU4ZTl4NDI1In0.qS-7z3zwY0ioFKNl2HyrMA</string>
+    <string name="mapbox_access_Stoken">sk.eyJ1IjoibWFoZXIxMSIsImEiOiJjbGhnbzUwc28wMGh0M3BvNnhyaG5wdWo1In0.u2zzz0MiKPF3cyDRL5hKyw</string>
+    <string name="title_activity_basic">BasicActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
 </resources>

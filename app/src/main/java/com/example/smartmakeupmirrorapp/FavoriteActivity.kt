@@ -19,6 +19,7 @@ class FavoriteActivity : AppCompatActivity() {
      private lateinit var cartView: ImageView
     private lateinit var  cartSize : TextView
     private lateinit var  fav : ImageView
+    private lateinit var home: ImageView
 
 
 
@@ -28,12 +29,16 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorite)
         profile = findViewById(R.id.imageViewuser)
         cartView = findViewById(R.id.imageViewhom)
+        home = findViewById(R.id.imageView3)
 
         cartView.setOnClickListener {
             startActivity(Intent(applicationContext, ShoppingCartActivity::class.java))
         }
         profile.setOnClickListener {
             startActivity(Intent(applicationContext, SettingsActivity::class.java))
+        }
+        home.setOnClickListener{
+            startActivity(Intent(applicationContext, AcceuilActivity::class.java))
         }
         recyclerViewCart = findViewById(R.id.favorite_recyclerView)
 

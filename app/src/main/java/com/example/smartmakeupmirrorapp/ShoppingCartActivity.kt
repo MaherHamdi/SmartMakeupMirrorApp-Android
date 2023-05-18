@@ -47,8 +47,12 @@ class ShoppingCartActivity : AppCompatActivity() {
 
 
         checkout.setOnClickListener {
-            "http://192.168.1.6:9090/payment-sheet".httpPost().responseJson { _, _, result ->
+            val totalPrice = ShoppingCart.getCart().fold(0.toDouble()) { acc, cartItem -> acc + cartItem.quantity.times(cartItem.product.price!!.toDouble()) }
+            val amount = (totalPrice * 100).toLong()
+           // val requestBody = mapOf("amount" to amount)
+            "http://192.168.1.135:9090/payment-sheet/${amount}".httpPost().responseJson { _, _, result ->
                 if (result is Result.Success) {
+                    print (amount);
                     val responseJson = result.get().obj()
                     paymentIntentClientSecret = responseJson.getString("paymentIntent")
                     customerConfig = PaymentSheet.CustomerConfiguration(

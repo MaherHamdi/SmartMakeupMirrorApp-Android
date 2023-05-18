@@ -40,7 +40,7 @@ class ShoppingCartAdapter(var context: Context, var cartItems: List<CartItem>,va
 
         fun bindItem(cartItem: CartItem) {
 
-            imageView.load("http://192.168.1.6:9090/img/"+cartItem.product.image)
+            imageView.load("http://192.168.1.9:9090/img/"+cartItem.product.image)
             textView.text = cartItem.product.name
             //textView2.text = "$${cartItem.product.price}"
             textView3.text = cartItem.quantity.toString()

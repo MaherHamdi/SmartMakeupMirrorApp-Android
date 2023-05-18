@@ -4,38 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecebe6"
-    >
+    android:background="@color/white">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/subCat"
-        android:layout_width="416dp"
-        android:layout_height="49dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView4"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="14dp"
+        android:src="@drawable/back_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView4"
+    <TextView
+        android:id="@+id/product_name_by_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="7dp"
+        android:text="Face"
+        android:textColor="#603A91"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewSubCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="170dp"
+        android:layout_marginBottom="7dp"
+        android:text="Products"
+        android:textColor="#603A91"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewSubCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_name_by_category"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/product_item_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:text="9"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewSubCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_name_by_category" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="200dp"
+        android:text="items found"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_item_number"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSubCategory"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewProduct"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subCat"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-5dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewSubCategory" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Products"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.smartmakeupmirrorapp.Models.SubCategory
 import com.example.smartmakeupmirrorapp.R
 
-class SubCategoryAdapter(private val subCategories: ArrayList<SubCategory>): RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
+class SubCategoryAdapter(private val subCategories: List<SubCategory>): RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
 
-
+    var onItemClick : ((SubCategory)->Unit)?=null
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView : TextView = itemView.findViewById(R.id.categoryNameee)
 
@@ -20,13 +20,16 @@ class SubCategoryAdapter(private val subCategories: ArrayList<SubCategory>): Rec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_white, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.category, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val subCategory = subCategories[position]
         holder.bind(subCategory)
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke((subCategory))
+        }
     }
 
     override fun getItemCount(): Int {

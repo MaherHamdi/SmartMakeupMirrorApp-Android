@@ -2,6 +2,9 @@ package com.example.smartmakeupmirrorapp.Models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Size
 
 class UserRequest {
 

@@ -2,7 +2,6 @@ package com.example.smartmakeupmirrorapp
 
 import RetrofitClient
 import android.content.Context
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,15 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.appcompat.widget.AppCompatButton
 import com.example.smartmakeupmirrorapp.Models.UserRequest
 import com.example.smartmakeupmirrorapp.Models.UserResponse
-
-import com.example.smartmakeupmirrorapp.Retrofit.SharedPrefManager
 import com.example.smartmakeupmirrorapp.Retrofit.UserApi
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -29,17 +30,51 @@ class LoginActivity : AppCompatActivity() {
     lateinit var btnLogin: ImageView
     lateinit var register: TextView
     lateinit var forgetpwd: TextView
+    lateinit var callbackManager: CallbackManager
+    lateinit var btnfb : AppCompatButton
+    private val EMAIL = "email"
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        //callbackManager = CallbackManager.Factory.create();
+
+
+
+        btnfb = findViewById(R.id.loginFb)
 
         email = findViewById(R.id.EditTextPersonEmail)
         password = findViewById(R.id.EditTextPersonPassword)
         btnLogin = findViewById(R.id.login)
         register = findViewById(R.id.Register)
         forgetpwd = findViewById(R.id.forgett)
+        callbackManager = CallbackManager.Factory.create()
+        LoginManager.getInstance().registerCallback(callbackManager,
+            object : FacebookCallback<LoginResult> {
+
+
+                override fun onSuccess(result: LoginResult) {
+                    val accessToken = result.accessToken
+                    getUserProfile(accessToken)
+                    //startActivity(Intent(applicationContext, AcceuilActivity::class.java))
+
+                }
+
+                override fun onCancel() {
+                    startActivity(Intent(applicationContext, LoginActivity::class.java))
+                }
+
+                override fun onError(error: FacebookException) {
+                    Toast.makeText(applicationContext, "must not be empty!!!", Toast.LENGTH_SHORT).show()
+                }
+            })
+        btnfb.setOnClickListener {
+
+
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
+        }
 
         forgetpwd.setOnClickListener {
             startActivity(Intent(applicationContext, ForgetpassActivity::class.java))
@@ -56,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         }
+
     fun login(email: String,password:String)
     {
         val request = UserRequest()
@@ -105,6 +141,90 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+    private fun getUserProfile(accessToken: AccessToken) {
+        val request = GraphRequest.newMeRequest(
+            accessToken
+        ) { _, response ->
+            // Handle the response from the Graph API
+            val json = response?.jsonObject
+            val name = json?.getString("name")
+            println(name)
+            val email = json?.getString("email")
+            print(email)
+           //val birthday = json?.getString("user_birthday")
+            //val phone = json?.getString("phone")
+            println(name)
+
+            // Save user data to backend
+            val userApi = RetrofitClient().getInstance().create(UserApi::class.java)
+            val request = UserRequest()
+            request.email = email
+            request.password = "aa"
+            request.phone = "25502771"
+            request.name = name
+            request.birthday = "12-10-2023"
+            request.address = ""
+
+            userApi.register(request).enqueue(object : Callback<UserResponse> {
+                override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                    if (response.isSuccessful) {
+                        val user = response.body()
+                        // Get the SharedPreferences object for your app
+                        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                        // Get an instance of SharedPreferences.Editor
+                        val editor = sharedPreferences.edit()
+                        // Save the user's email address in shared preferences
+                        editor.putString("password", user!!.user?.password!!)
+                        editor.putString("email", user!!.user?.email!!)
+                        editor.putString("name", user!!.user?.name!!)
+                        editor.putString("birthday", user!!.user?.birthday!!)
+                        editor.putString("phone", user!!.user?.phone!!)
+                        editor.putString("address",user!!.user?.address!!)
+                        // Commit the changes to the SharedPreferences object
+                        editor.commit()
+                        // Get the user's email address from shared preferences
+
+                        // Get the user's email address from shared preferences
+                        val userEmail = sharedPreferences.getString("email", "")
+
+                        // Do something with the user's email address
+                        // Do something with the user's email address
+
+                        //SharedPrefManager.getInstance(applicationContext).saveUser(UserRequest)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                        val intent = Intent(applicationContext, AcceuilActivity::class.java)
+
+                        startActivity(intent)
+                        // User created successfully
+                    } else {
+                        Toast.makeText(applicationContext, "must not be empty!!!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                    t.message?.let { Log.e("Error", it) }
+                }
+            })
+        }
+
+        val parameters = Bundle()
+
+        parameters.putString("fields", "name,email,birthday")
+        request.parameters = parameters
+        request.executeAsync()
     }
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+}
+
 
 

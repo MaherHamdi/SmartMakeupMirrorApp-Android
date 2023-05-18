@@ -11,20 +11,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
-object CategoryRepo{
-    private const val  BASE_URL = "http://192.168.1.6:9090/"
+
+
+object CategoryRepo {
+    private const val  BASE_URL = "http://192.168.1.9:9090/"
     /**
      * Build the Moshi object with Kotlin adapter factory that Retrofit will be using.
      */
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
-    val listType = Types.newParameterizedType(List::class.java, Category::class.java)
-    val adapter: JsonAdapter<List<Category>> = moshi.adapter(listType)
-
-
-
-
     /**
      * The OkHttp client with HTTPS support.
      */
@@ -36,7 +32,6 @@ object CategoryRepo{
      */
 
     private val retrofit : Retrofit by lazy {
-        //val adapter =   moshi.adapter<Products>()
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
@@ -53,5 +48,7 @@ interface CategoryService {
 
     @GET("category/")
 
-    fun getCategory(): Call<List<Category>>
+    fun getGategorys():Call<List<Category>>
+
+
 }
