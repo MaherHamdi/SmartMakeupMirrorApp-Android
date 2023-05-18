@@ -1,6 +1,8 @@
 package com.example.smartmakeupmirrorapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +17,19 @@ class ProdcutDetailActivity : AppCompatActivity() {
     private lateinit var numberOrder: TextView
     var numberOr: Int = 1
     private lateinit var cartItem: CartItem
+    private lateinit var tuto : Button
+    private lateinit var back: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.product_detail)
+        tuto = findViewById(R.id.button2)
+        back = findViewById(R.id.backBtn)
+        tuto.setOnClickListener {
+            startActivity(Intent(applicationContext, ListVideoActivity::class.java))
+        }
+        back.setOnClickListener {
+            startActivity(Intent(applicationContext, AcceuilActivity::class.java))
+        }
 
 
 

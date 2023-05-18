@@ -1,5 +1,6 @@
 package com.example.smartmakeupmirrorapp
 
+import ai.deepar.deepar_example.MainActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +10,9 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var nametxt: TextView
@@ -19,24 +22,36 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var back: ImageView
     private lateinit var home: ImageView
     private lateinit var cartView: ImageView
-    private lateinit var  cartSize : TextView
-    private lateinit var  fav : ImageView
-    private lateinit var pwdpage : ImageView
+    private lateinit var cartSize: TextView
+    private lateinit var fav: ImageView
+    private lateinit var pwdpage: ImageView
     private var isDarkThemeEnabled = false
+    private var currentTheme: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isDarkThemeEnabled) {
-            setTheme(R.style.Theme_SmartMakeupMirrorApp_Dark)
-        } else {
-            setTheme(R.style.Theme_SmartMakeupMirrorApp)
-        }
         setContentView(R.layout.activity_settings)
-        val switchDarkTheme = findViewById<Switch>(R.id.darktheme)
-        switchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
-            isDarkThemeEnabled = isChecked
-            recreate() // Recreate the activity to apply the new theme
+        val buttonOpenCam = findViewById<FloatingActionButton>(R.id.video)
+        buttonOpenCam.setOnClickListener {
+
+            //     var intent = Intent(this, Camera::class.java)
+
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
+        currentTheme = AppCompatDelegate.getDefaultNightMode()
+
+        val switchDarkTheme = findViewById<Switch>(R.id.darktheme)
+        switchDarkTheme.isChecked = currentTheme == AppCompatDelegate.MODE_NIGHT_YES
+        switchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
+            val newTheme =
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            if (currentTheme != newTheme) {
+                AppCompatDelegate.setDefaultNightMode(newTheme)
+                recreate()
+            }
+        }
+
         logoutB = findViewById(R.id.logoutt)
         edit = findViewById(R.id.edit)
         back = findViewById(R.id.backBtn)
@@ -55,15 +70,15 @@ class SettingsActivity : AppCompatActivity() {
         cartView.setOnClickListener {
             startActivity(Intent(applicationContext, ShoppingCartActivity::class.java))
         }
-        back.setOnClickListener{
+        back.setOnClickListener {
             startActivity(Intent(applicationContext, AcceuilActivity::class.java))
         }
-        home.setOnClickListener{
+        home.setOnClickListener {
             startActivity(Intent(applicationContext, AcceuilActivity::class.java))
         }
 
 
-        edit.setOnClickListener{
+        edit.setOnClickListener {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             val intent = Intent(applicationContext, ProfileActivity::class.java)
@@ -71,7 +86,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        logoutB.setOnClickListener{
+        logoutB.setOnClickListener {
             val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
             // Get an instance of SharedPreferences.Editor
             val editor = sharedPreferences.edit()
@@ -90,11 +105,17 @@ class SettingsActivity : AppCompatActivity() {
         nametxt = findViewById(R.id.name)
         emailtxt = findViewById(R.id.email)
 
-        nametxt.text= name
+        nametxt.text = name
         emailtxt.text = email
-
 
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        val currentTheme = AppCompatDelegate.getDefaultNightMode()
+        val switchDarkTheme = findViewById<Switch>(R.id.darktheme)
+        switchDarkTheme.isChecked = currentTheme == AppCompatDelegate.MODE_NIGHT_YES
+
+    }
 }

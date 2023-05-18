@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     >
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="14dp"
+        android:src="@drawable/back_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -124,7 +132,7 @@
             android:fontFamily="@font/rubik_medium"
             android:padding="16dp"
             android:paddingRight="16dp"
-            android:text="Add to Cart"
+            android:text="Tutorials"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -94,22 +94,7 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/btn_login" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/loginGoogle"
-                style="@android:style/Widget.Button"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/btn_background2"
-                android:drawableStart="@drawable/google"
-                android:padding="16dp"
-                android:text="Sign up with Google"
-                android:drawablePadding="16dp"
-                android:textColor="#603a91"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginFb"

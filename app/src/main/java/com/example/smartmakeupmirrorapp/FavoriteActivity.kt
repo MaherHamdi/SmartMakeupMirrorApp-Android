@@ -1,5 +1,6 @@
 package com.example.smartmakeupmirrorapp
 
+import ai.deepar.deepar_example.MainActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartmakeupmirrorapp.Adapter.FavoriteAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class FavoriteActivity : AppCompatActivity() {
@@ -27,6 +29,13 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
+        val buttonOpenCam = findViewById<FloatingActionButton>(R.id.video)
+        buttonOpenCam.setOnClickListener {
+
+            //     var intent = Intent(this, Camera::class.java)
+
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)}
         profile = findViewById(R.id.imageViewuser)
         cartView = findViewById(R.id.imageViewhom)
         home = findViewById(R.id.imageView3)

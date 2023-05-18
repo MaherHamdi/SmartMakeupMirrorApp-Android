@@ -4,6 +4,7 @@ package com.example.smartmakeupmirrorapp
 
 
 import ProductRepo
+import ai.deepar.deepar_example.MainActivity
 
 import android.content.Context
 import android.content.Intent
@@ -39,6 +40,7 @@ class AcceuilActivity : AppCompatActivity() {
     private lateinit var cartView: ImageView
     private lateinit var  cartSize : TextView
     private lateinit var  fav : ImageView
+    private lateinit var profilee : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +51,13 @@ class AcceuilActivity : AppCompatActivity() {
 
             //     var intent = Intent(this, Camera::class.java)
 
-            var intent = Intent(this, ListVideoActivity::class.java)
+            var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)}
+        profilee = findViewById(R.id.prof)
+        profilee.setOnClickListener {
+            var intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
       //  recyclerViewCategories = findViewById(R.id.recyclerViewCategory)
        // recyclerViewProduct = findViewById(R.id.recyclerViewProduct)
        // linearLayoutManager = LinearLayoutManager(this,  LinearLayoutManager.HORIZONTAL, false)
